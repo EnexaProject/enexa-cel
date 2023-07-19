@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+
+# call drill
+./drill_train.py \
+    --path_knowledge_base="$(enexa-parameter "http://example.org/cel/parameters/path_knowledge_base")" \
+    --path_knowledge_base_embeddings="$(enexa-parameter "http://example.org/cel/parameters/path_knowledge_base_embeddings")" \
+    --num_episode 2 \
+    --min_num_concepts 2 \
+    --num_of_randomly_created_problems_per_concept 1 \
+    --relearn_ratio 2
+
+enexa-add-file ?
