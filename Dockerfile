@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM drill-train
 WORKDIR /app
 ADD . ./
 CMD ./module
