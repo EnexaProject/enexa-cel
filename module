@@ -2,20 +2,22 @@
 set -eu
 
 
-# things which ENEXA is supposed to do
-mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/cel-train/parameter#kg> <http://example.org/kg> . <http://example.org/kg> enexa:location 'enexa-dir://train.owl' }" \
+# If this is a test run
+if [ "$TEST_RUN" = true ]
+then  
+  # things which ENEXA is supposed to do
+  mkdir -p $ENEXA_WRITEABLE_DIRECTORY
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/cel-train/parameter/kg> <http://example.org/kg> . <http://example.org/kg> enexa:location 'enexa-dir://train.owl' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/cel-train/parameter#kge> <http://example.org/kge> . <http://example.org/kge> enexa:location 'enexa-dir://writeable/entity_embeddings.csv' }" \
+  echo "PREFIX enexa: <http://w3id.org/dice-research/enexa/ontology#> INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/cel-train/parameter/kge> <http://example.org/kge> . <http://example.org/kge> enexa:location 'enexa-dir://writeable/entity_embeddings.csv' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-
-# actual example
+fi
 
 # Will generate "Log/*/DrillHeuristic_averaging.pth"
 python drill_train.py \
-  --path_knowledge_base $(enexa-parameter "http://example.org/cel-train/parameter#kg") \
-  --path_knowledge_base_embeddings $(enexa-parameter "http://example.org/cel-train/parameter#kge") \
+  --path_knowledge_base $(enexa-parameter "http://w3id.org/dice-research/enexa/module/cel-train/parameter/kg") \
+  --path_knowledge_base_embeddings $(enexa-parameter "http://w3id.org/dice-research/enexa/module/cel-train/parameter/kge") \
   --num_episode 0 --min_num_concepts 1 --num_of_randomly_created_problems_per_concept 0 \
   --relearn_ratio 0
 
-enexa-add-file Log/*/DrillHeuristic_averaging.pth "http://example.org/cel-train/result#agent"
+enexa-add-file Log/*/DrillHeuristic_averaging.pth "http://w3id.org/dice-research/enexa/module/cel-train/heuristics"
