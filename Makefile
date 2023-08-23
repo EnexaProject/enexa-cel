@@ -3,8 +3,6 @@ VERSION=1.0.0
 TAG=$(IMAGE):$(VERSION)
 TEST_DIR=test-shared-dir
 
-TAG=enexa-cel-train:latest
-
 build:
 	docker build -f BaseDockerfile -t drill-train .
 	docker build -t $(TAG) .
