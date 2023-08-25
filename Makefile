@@ -4,7 +4,7 @@ TAG=$(IMAGE):$(VERSION)
 TEST_DIR=test-shared-dir
 
 build:
-	docker build -f BaseDockerfile -t drill-train .
+	docker build -f BaseDockerfile -t hub.cs.upb.de/enexa/images/enexa-cel-base:$(VERSION) .
 	docker build -t $(TAG) .
 
 test:
