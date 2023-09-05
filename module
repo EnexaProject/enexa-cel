@@ -15,7 +15,7 @@ fi
 
 # Will generate "Log/*/DrillHeuristic_averaging.pth"
 
-print python drill_train.py \
+echo python drill_train.py \
   --path_knowledge_base $(enexa-parameter "http://w3id.org/dice-research/enexa/module/cel-train/parameter/kg") \
   --path_knowledge_base_embeddings $(enexa-parameter "http://w3id.org/dice-research/enexa/module/cel-train/parameter/kge") \
   --num_episode 0 --min_num_concepts 0 --num_of_randomly_created_problems_per_concept 0 \
